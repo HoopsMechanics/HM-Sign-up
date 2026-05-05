@@ -104,29 +104,7 @@
       }
     });
 
-    form.addEventListener('submit', async function(e) {
-  e.preventDefault();
-
-  const data = {
-    name: document.getElementById('name').value,
-    age: document.getElementById('age').value,
-    skill: document.getElementById('skill').value,
-    email: document.getElementById('email').value,
-    phone: document.getElementById('phone').value,
-    guardianName: document.getElementById('guardianName').value,
-    guardianPhone: document.getElementById('guardianPhone').value,
-    shirt: document.getElementById('shirt').value,
-    medical: document.getElementById('medical').value
-  };
-
-  await fetch("https://script.google.com/macros/s/AKfycbwzntPiRBk_KLB9oLi_61H4gF3PyU-VB0KB4qbdKo0FFmZbLOGi_-Suo-_KTdzGUouleg/exec", {
-    method: "POST",
-    body: JSON.stringify(data)
-  });
-
-  document.getElementById('successMsg').classList.remove('hidden');
-  form.reset();
-});
+    form.addEventListener('submit', function(e) {
       e.preventDefault();
 
       let valid = true;
@@ -153,10 +131,23 @@
       // Simple submission (replace with backend later)
       document.getElementById('successMsg').classList.remove('hidden');
 
-      // OPTIONAL: send email via mailto fallback
-      const data = new FormData(form);
-      const body = Array.from(data.entries()).map(([k,v]) => `${k}: ${v}`).join('%0D%0A');
-      window.location.href = `mailto:your@email.com?subject=Hoops Mechanics Signup&body=${body}`;
+      // Send data to Google Sheets
+      const data = {
+        name: document.getElementById('name').value,
+        age: document.getElementById('age').value,
+        skill: document.getElementById('skill').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        guardianName: document.getElementById('guardianName').value,
+        guardianPhone: document.getElementById('guardianPhone').value,
+        shirt: document.getElementById('shirt').value,
+        medical: document.getElementById('medical').value
+      };
+
+      fetch("https://script.google.com/macros/s/AKfycbwzntPiRBk_KLB9oLi_61H4gF3PyU-VB0KB4qbdKo0FFmZbLOGi_-Suo-_KTdzGUouleg/exec", {
+        method: "POST",
+        body: JSON.stringify(data)
+      });
     });
   </script>
 
@@ -170,3 +161,4 @@
 
 </body>
 </html>
+
