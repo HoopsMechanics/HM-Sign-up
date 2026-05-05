@@ -104,7 +104,29 @@
       }
     });
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const data = {
+    name: document.getElementById('name').value,
+    age: document.getElementById('age').value,
+    skill: document.getElementById('skill').value,
+    email: document.getElementById('email').value,
+    phone: document.getElementById('phone').value,
+    guardianName: document.getElementById('guardianName').value,
+    guardianPhone: document.getElementById('guardianPhone').value,
+    shirt: document.getElementById('shirt').value,
+    medical: document.getElementById('medical').value
+  };
+
+  await fetch("https://script.google.com/macros/s/AKfycbwzntPiRBk_KLB9oLi_61H4gF3PyU-VB0KB4qbdKo0FFmZbLOGi_-Suo-_KTdzGUouleg/exec", {
+    method: "POST",
+    body: JSON.stringify(data)
+  });
+
+  document.getElementById('successMsg').classList.remove('hidden');
+  form.reset();
+});
       e.preventDefault();
 
       let valid = true;
