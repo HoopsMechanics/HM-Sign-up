@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hoops Mechanics Sign Up</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #0f172a; color: #fff; display:flex; justify-content:center; align-items:center; min-height:100vh; }
+    .container { background:#111827; padding:30px; border-radius:12px; max-width:520px; width:100%; box-shadow:0 10px 30px rgba(0,0,0,0.4);}    
+    h1 { text-align:center; margin-bottom:10px; }
+    p { font-size:0.9rem; line-height:1.4; color:#cbd5f5; }
+    .section { margin-top:12px; }
+    input, select, textarea { width:100%; padding:10px; margin-top:6px; border-radius:8px; border:none; outline:none; }
+    textarea { resize:none; height:70px; }
+    .error { color:#f87171; font-size:0.8rem; display:none; }
+    button { width:100%; padding:12px; margin-top:15px; background:#22c55e; border:none; border-radius:8px; color:white; font-weight:bold; cursor:pointer; }
+    button:hover { background:#16a34a; }
+    .details { background:#1f2937; padding:15px; border-radius:10px; margin-top:15px; font-size:0.85rem; }
+    .hidden { display:none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hoops Mechanics</h1>
+    <p>Master the mechanics of basketball through structured training focused on skill, decision-making, and game intelligence.</p>
+
+    <div class="details">
+      <strong>Programme Details:</strong><br>
+      Thursdays (14 May – 30 July 2026)<br>
+      Excludes 04 June<br>
+      Time: 8:00 – 10:00 PM<br>
+      Venue: Cambridge Regional College<br>
+      Cost: £350 (full) or split option
+    </div>
+
+    <form id="signupForm">
+      <div class="section">
+        <input id="name" type="text" placeholder="Player Full Name" required>
+      </div>
+
+      <div class="section">
+        <input id="age" type="number" placeholder="Age" required>
+        <div class="error" id="ageError">Please enter a valid age</div>
+      </div>
+
+      <div class="section">
+        <select id="skill" required>
+          <option value="">Skill Level</option>
+          <option>Beginner</option>
+          <option>Intermediate</option>
+          <option>Advanced</option>
+        </select>
+      </div>
+
+      <div class="section">
+        <input id="email" type="email" placeholder="Email Address" required>
+        <div class="error" id="emailError">Enter a valid email</div>
+      </div>
+
+      <div class="section">
+        <input id="phone" type="tel" placeholder="Phone Number" required>
+      </div>
+
+      <div id="guardianSection" class="hidden">
+        <div class="section">
+          <input id="guardianName" type="text" placeholder="Parent/Guardian Name">
+        </div>
+        <div class="section">
+          <input id="guardianPhone" type="tel" placeholder="Parent/Guardian Contact">
+        </div>
+      </div>
+
+      <div class="section">
+        <select id="shirt" required>
+          <option value="">Shirt Size</option>
+          <option>XS</option>
+          <option>S</option>
+          <option>M</option>
+          <option>L</option>
+          <option>XL</option>
+        </select>
+      </div>
+
+      <div class="section">
+        <textarea id="medical" placeholder="Medical Conditions / Injuries (if any)"></textarea>
+      </div>
+
+      <button type="submit">Secure Your Spot</button>
+    </form>
+
+    <p id="successMsg" class="hidden" style="color:#4ade80; margin-top:10px; text-align:center;">Signup submitted successfully!</p>
+  </div>
+
+  <script>
+    const form = document.getElementById('signupForm');
+    const ageInput = document.getElementById('age');
+    const guardianSection = document.getElementById('guardianSection');
+
+    ageInput.addEventListener('input', () => {
+      if (ageInput.value < 18) {
+        guardianSection.classList.remove('hidden');
+      } else {
+        guardianSection.classList.add('hidden');
+      }
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      let valid = true;
+
+      const email = document.getElementById('email');
+      const age = document.getElementById('age');
+
+      if (!email.value.includes('@')) {
+        document.getElementById('emailError').style.display = 'block';
+        valid = false;
+      } else {
+        document.getElementById('emailError').style.display = 'none';
+      }
+
+      if (age.value <= 0) {
+        document.getElementById('ageError').style.display = 'block';
+        valid = false;
+      } else {
+        document.getElementById('ageError').style.display = 'none';
+      }
+
+      if (!valid) return;
+
+      // Simple submission (replace with backend later)
+      document.getElementById('successMsg').classList.remove('hidden');
+
+      // OPTIONAL: send email via mailto fallback
+      const data = new FormData(form);
+      const body = Array.from(data.entries()).map(([k,v]) => `${k}: ${v}`).join('%0D%0A');
+      window.location.href = `mailto:your@email.com?subject=Hoops Mechanics Signup&body=${body}`;
+    });
+  </script>
+
+  <!-- OPTIONAL FIREBASE BACKEND SETUP -->
+  <!--
+  1. Create Firebase project
+  2. Enable Firestore
+  3. Replace config below
+  4. Save form data
+  -->
+
+</body>
+</html>
