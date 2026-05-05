@@ -104,34 +104,9 @@
       }
     });
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
       e.preventDefault();
 
-      let valid = true;
-
-      const email = document.getElementById('email');
-      const age = document.getElementById('age');
-
-      if (!email.value.includes('@')) {
-        document.getElementById('emailError').style.display = 'block';
-        valid = false;
-      } else {
-        document.getElementById('emailError').style.display = 'none';
-      }
-
-      if (age.value <= 0) {
-        document.getElementById('ageError').style.display = 'block';
-        valid = false;
-      } else {
-        document.getElementById('ageError').style.display = 'none';
-      }
-
-      if (!valid) return;
-
-      // Simple submission (replace with backend later)
-      document.getElementById('successMsg').classList.remove('hidden');
-
-      // Send data to Google Sheets
       const data = {
         name: document.getElementById('name').value,
         age: document.getElementById('age').value,
@@ -144,21 +119,24 @@
         medical: document.getElementById('medical').value
       };
 
-      fetch("https://script.google.com/macros/s/AKfycbwzntPiRBk_KLB9oLi_61H4gF3PyU-VB0KB4qbdKo0FFmZbLOGi_-Suo-_KTdzGUouleg/exec", {
-        method: "POST",
-        body: JSON.stringify(data)
-      });
+      try {
+        await fetch("https://script.google.com/macros/s/AKfycbwzntPiRBk_KLB9oLi_61H4gF3PyU-VB0KB4qbdKo0FFmZbLOGi_-Suo-_KTdzGUouleg/exec", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        });
+
+        document.getElementById('successMsg').classList.remove('hidden');
+        form.reset();
+      } catch (err) {
+        alert('Submission failed. Please try again.');
+        console.error(err);
+      }
     });
   </script>
-
-  <!-- OPTIONAL FIREBASE BACKEND SETUP -->
-  <!--
-  1. Create Firebase project
-  2. Enable Firestore
-  3. Replace config below
-  4. Save form data
-  -->
-
 </body>
 </html>
+
 
